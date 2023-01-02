@@ -4,7 +4,7 @@ import titleFont from "./fonts/IvyOraDisplay-Medium.ttf";
 import starIcon from "./images/star.svg";
 
 //avatar
-import abhi from "./images/abhi.png";
+import aaryan from "./images/abhi.png";
 import ojas from "./images/ojas.png";
 import sahil from "./images/sahil.png";
 import srijit from "./images/srijit.png";
@@ -15,7 +15,7 @@ const fonts = {
   titleFont,
 };
 const avatars = {
-  abhi,
+  aaryan,
   ojas,
   sahil,
   srijit,

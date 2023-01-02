@@ -67,7 +67,7 @@ const membersInfo = [
   { name: "Ojas", avatar: assets.avatars.ojas },
   { name: "Sahil", avatar: assets.avatars.sahil },
   { name: "Srijit", avatar: assets.avatars.srijit },
-  { name: "Abhi", avatar: assets.avatars.abhi },
+  { name: "Aaryan", avatar: assets.avatars.aaryan },
 ];
 const TeamMembers = () => {
   return (
