@@ -1,80 +1,59 @@
-import React, { useContext } from 'react'
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import GlobalContext from '../../GlobalContext';
-import styled from 'styled-components';
+import React from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+
+import styled from "styled-components";
 
 const Button = styled.button`
-    background: white;
-    padding: 0.7rem;
-    border: none;
-    outline: none;
-    border-radius: 15px;
-    font-family: 'Sora', sans-serif;
-    cursor: pointer;
-`
+  background: var(--color-bg);
+  color: var(--color-primary);
+  padding: 0.5rem 0.75rem;
+`;
 
 const CustomConnectButton = () => {
-
-    const user = useContext(GlobalContext)
-
-    return (
-        <ConnectButton.Custom>
-            {({
-                account,
-                chain,
-                openAccountModal,
-                openChainModal,
-                openConnectModal,
-                mounted,
-            }) => {
-                const ready = mounted;
-                const connected =
-                    ready &&
-                    account &&
-                    chain
+  return (
+    <ConnectButton.Custom>
+      {({
+        account,
+        chain,
+        openAccountModal,
+        openChainModal,
+        openConnectModal,
+        mounted,
+      }) => {
+        const ready = mounted;
+        const connected = ready && account && chain;
+        return (
+          <div>
+            {(() => {
+              if (!connected) {
                 return (
-                    <div                    >
-                        {(() => {
-
-                            if (connected) {
-                                user.setWallet(account.address)
-                            } else {
-                                user.setWallet('')
-                            }
-
-
-                            if (!connected) {
-                                return (
-                                    <Button onClick={openConnectModal} type="button">
-                                        Connect Wallet
-                                    </Button>
-                                );
-                            }
-
-                            if (chain.unsupported) {
-                                return (
-                                    <Button onClick={openChainModal} type="button">
-                                        Wrong network
-                                    </Button>
-                                );
-                            }
-
-                            return (
-                                <div style={{ display: 'flex', gap: 12 }}>
-                                    <Button onClick={openAccountModal} type="button">
-                                        {account.displayName}
-                                        {account.displayBalance
-                                            ? ` (${account.displayBalance})`
-                                            : ''}
-                                    </Button>
-                                </div>
-                            );
-                        })()}
-                    </div>
+                  <Button onClick={openConnectModal} type="button">
+                    Connect Wallet
+                  </Button>
                 );
-            }}
-        </ConnectButton.Custom>
-    )
-}
+              }
 
-export default CustomConnectButton
+              if (chain.unsupported) {
+                return (
+                  <Button onClick={openChainModal} type="button">
+                    Wrong network
+                  </Button>
+                );
+              }
+
+              return (
+                <div>
+                  <Button onClick={openAccountModal} type="button">
+                    {account.displayName}
+                  </Button>
+                </div>
+              );
+            })()}
+          </div>
+        );
+      }}
+    </ConnectButton.Custom>
+  );
+};
+
+export default CustomConnectButton;
