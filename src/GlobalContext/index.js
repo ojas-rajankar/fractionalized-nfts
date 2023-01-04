@@ -14,29 +14,51 @@ export default function GlobalContextProvider({ children }) {
   const contractAddress = "0x18533f5a21a85a8A1e11153F455A724B124F98bd";
   const contract = new ethers.Contract(contractAddress, abi, signer);
   const [userInfo, setUserInfo] = useState({
-    wallet: isConnected ? address : null,
     hasFractionalizedNFT: false,
     hasNormalNFT: false,
     tokenID: false,
     tokenURI: false,
     arrayOfAccess: false,
     mintNFT: mintNFT,
-    fractionNFT,
+    fractionNFT: fractionNFT,
   });
+  const resetState = () => {
+    setUserInfo({
+      hasFractionalizedNFT: false,
+      hasNormalNFT: false,
+      tokenID: false,
+      tokenURI: false,
+      arrayOfAccess: false,
+      mintNFT: mintNFT,
+      fractionNFT: fractionNFT,
+    });
+  };
   async function fractionNFT(arrayOfAccess, receiverOfFractionalNFT) {
-    const tx = await contract.fractionNFT(
-      arrayOfAccess,
-      userInfo.wallet,
-      receiverOfFractionalNFT
-    );
-    await tx.wait();
+    try {
+      const gasLimit = await contract.estimateGas.fractionNFT(
+        arrayOfAccess,
+        address,
+        receiverOfFractionalNFT
+      );
+      const gasPrice = signer.getGasPrice();
+      const tx = await contract.fractionNFT(
+        arrayOfAccess,
+        address,
+        receiverOfFractionalNFT,
+        { gasLimit: gasLimit, gasPrice: gasPrice }
+      );
+      await tx.wait();
+      window.location.reload();
+      alert("Transfer Successfull!");
+    } catch {
+      alert("Fraction Failed!");
+    }
   }
-
   async function userAlreadyHasNFT() {
-    const bool = await contract.userAlreadyHasNFT(userInfo.wallet);
+    const bool = await contract.userAlreadyHasNFT(address);
 
     if (bool) {
-      const tokenID = await contract.getTokenId(userInfo.wallet);
+      const tokenID = await contract.getTokenId(address);
       const tokenURI = await contract.tokenURI(tokenID);
 
       const json = atob(tokenURI.substring(29));
@@ -49,7 +71,7 @@ export default function GlobalContextProvider({ children }) {
       let arrayOfAccess = [];
 
       for (let i = 0; i < 5; i++) {
-        if (formatedTokenURI?.attributes[i]?.value) {
+        if (formatedTokenURI?.attributes[i]?.value === "True") {
           arrayOfAccess.push(1);
         } else {
           arrayOfAccess.push(0);
@@ -66,23 +88,35 @@ export default function GlobalContextProvider({ children }) {
   }
 
   async function userHasFractionalized() {
-    const bool = await contract.userHasFractionalized(userInfo.wallet);
+    const bool = await contract.userHasFractionalized(address);
     console.log("userHasFractionalized: ", bool);
     userInfo.hasFractionalizedNFT = bool;
   }
-
-  async function mintNFT() {
-    const tx = await contract.mint(address);
-    await tx.wait();
-    console.log("minting account");
+  async function mintNFT(address) {
+    try {
+      const gasLimit = await contract.estimateGas.mint(address);
+      const gasPrice = signer.getGasPrice();
+      const tx = await contract.mint(address, {
+        gasLimit: gasLimit,
+        gasPrice: gasPrice,
+      });
+      await tx.wait();
+      window.location.reload();
+      alert("Mint Successfull!");
+    } catch {
+      alert("Not enough balance/Already owned!");
+    }
   }
-
+  console.log("userinfo", address);
   useEffect(() => {
-    if (userInfo?.wallet) {
+    if (address && isConnected) {
       userAlreadyHasNFT();
       userHasFractionalized();
+      console.log("scope executed!");
+    } else {
+      resetState();
     }
-  }, [address, isConnected, userInfo?.wallet]);
+  }, [address, isConnected]);
   return (
     <GlobalContext.Provider value={{ userInfo }}>
       {children}

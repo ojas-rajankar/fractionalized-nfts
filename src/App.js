@@ -13,6 +13,8 @@ import { Route, Routes } from "react-router-dom";
 import GlobalContextProvider from "./GlobalContext";
 import { GlobalStyles } from "./themes/global.theme";
 import AppLayout from "./themes/global.layout";
+import FutureScope from "./Pages/FutureScope";
+import Courses from "./Pages/Courses";
 
 const { chains, provider } = configureChains(
   [polygonMumbai],
@@ -35,14 +37,21 @@ function App() {
       <RainbowKitProvider
         chains={chains}
         coolMode
-        theme={darkTheme({ overlayBlur: "small", borderRadius: "large" })}
+        theme={darkTheme({
+          overlayBlur: "small",
+          borderRadius: "large",
+          accentColor: "#fff",
+          accentColorForeground: "#000",
+        })}
       >
         <GlobalContextProvider>
           <GlobalStyles />
           <Routes>
             <Route element={<AppLayout />}>
               <Route path="/" element={<Home />} />
+              <Route path="/courses" element={<Courses />} />
               <Route path="/course/:id" element={<Course />} />
+              <Route path="/future-scope" element={<FutureScope />} />
             </Route>
           </Routes>
         </GlobalContextProvider>

@@ -128,7 +128,7 @@ export const GlobalStyles = styled.createGlobalStyle`
     max-width: 100%;
     display: block;
   }
-  input,
+
   button {
     background: var(--color-bg);
     color: var(--color-primary);

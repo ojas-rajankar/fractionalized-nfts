@@ -1,6 +1,8 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useAccount } from "wagmi";
 import assets from "../assets";
 import { Content, FlexRowContent } from "../Components/Common";
 import CustomConnectButton from "../Components/ConnectButton";
@@ -31,6 +33,8 @@ const TeamMemberCtr = styled.div`
     &::after {
       content: "";
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       background: url("https://i.pinimg.com/originals/b0/cf/79/b0cf79f6a73667c3b0fbc05578950f58.gif")
@@ -77,7 +81,7 @@ const TeamMembers = () => {
       </p>
       <div className="_members">
         {membersInfo.map((memeber) => (
-          <div className="_member">
+          <div className="_member" key={memeber?.name}>
             <div className="avatar">
               <img src={memeber.avatar} alt="" />
             </div>
@@ -90,6 +94,9 @@ const TeamMembers = () => {
 };
 const Home = () => {
   const { userInfo } = useGlobalState();
+  const navigate = useNavigate(null);
+  const { address, isConnected } = useAccount();
+
   return (
     <HomeCtr>
       <div className="homeHero">
@@ -102,7 +109,11 @@ const Home = () => {
           The fractional project is the first project built on top of
           blockchain, where accessibility is open to the masses.
         </p>
-        <ConnectButton />
+        {!address && !isConnected ? (
+          <ConnectButton />
+        ) : (
+          <button onClick={() => navigate("/courses")}>Your Courses</button>
+        )}
       </div>
       <div className="introSection">
         <p>
@@ -189,7 +200,7 @@ const HomeCtr = styled.div`
   }
   .homeHero {
     ${mixins.flexColCenter}
-    gap:1rem;
+    gap:2rem;
     text-align: center;
   }
   .homeContent {
