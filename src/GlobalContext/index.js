@@ -7,6 +7,7 @@ const GlobalContext = createContext({});
 
 export default function GlobalContextProvider({ children }) {
   const { address, isConnected } = useAccount();
+  const [isMinting, setMintingStatus] = useState(false);
   const { ethereum } = window;
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
@@ -34,6 +35,7 @@ export default function GlobalContextProvider({ children }) {
     });
   };
   async function fractionNFT(arrayOfAccess, receiverOfFractionalNFT) {
+    setMintingStatus(true);
     try {
       const gasLimit = await contract.estimateGas.fractionNFT(
         arrayOfAccess,
@@ -52,6 +54,8 @@ export default function GlobalContextProvider({ children }) {
       alert("Transfer Successfull!");
     } catch {
       alert("Fraction Failed!");
+    } finally {
+      setMintingStatus(false);
     }
   }
   async function userAlreadyHasNFT() {
@@ -93,6 +97,7 @@ export default function GlobalContextProvider({ children }) {
     userInfo.hasFractionalizedNFT = bool;
   }
   async function mintNFT(address) {
+    setMintingStatus(true);
     try {
       const gasLimit = await contract.estimateGas.mint(address);
       const gasPrice = signer.getGasPrice();
@@ -105,6 +110,8 @@ export default function GlobalContextProvider({ children }) {
       alert("Mint Successfull!");
     } catch {
       alert("Not enough balance/Already owned!");
+    } finally {
+      setMintingStatus(false);
     }
   }
   console.log("userinfo", address);
@@ -118,7 +125,7 @@ export default function GlobalContextProvider({ children }) {
     }
   }, [address, isConnected]);
   return (
-    <GlobalContext.Provider value={{ userInfo }}>
+    <GlobalContext.Provider value={{ userInfo, isMinting }}>
       {children}
     </GlobalContext.Provider>
   );

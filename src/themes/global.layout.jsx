@@ -16,6 +16,7 @@ const AppLayout = () => {
       <div className="header">
         <button onClick={() => navigate("/future-scope")}>Future Scope</button>
         <img
+          className="logo"
           src={assets.icons.starIcon}
           alt=""
           style={{ width: "2rem" }}
@@ -38,6 +39,14 @@ const LayoutWrapper = styled(Wrapper)`
   .header {
     ${mixins.flexRowCenter}
     justify-content: space-between;
+  }
+  .logo {
+    animation: rotate 8s infinite linear;
+  }
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 

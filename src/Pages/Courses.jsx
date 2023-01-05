@@ -13,7 +13,6 @@ function trimAddress(str) {
   }
   return str;
 }
-
 const modulesInfo = [
   {
     id: 1,
@@ -101,7 +100,7 @@ const AllCoursesCtr = styled.div`
 `;
 const AllCourses = () => {
   const navigate = useNavigate(null);
-  const { userInfo } = useGlobalState();
+  const { userInfo, isMinting } = useGlobalState();
   const { address } = useAccount();
   return (
     <AllCoursesCtr>
@@ -116,7 +115,11 @@ const AllCourses = () => {
               borderColor: "var(--color-imp)",
             }}
           >
-            {userInfo?.hasNormalNFT ? "Owned" : "Mint Course"}
+            {isMinting
+              ? "Minting..."
+              : userInfo?.hasNormalNFT
+              ? "Owned"
+              : "Mint Course"}
           </button>
         </div>
         <div className="courseModules">
@@ -140,34 +143,34 @@ const AllCourses = () => {
     </AllCoursesCtr>
   );
 };
-
 const FragmintCtr = styled.div`
   ${mixins.flexRowCenter}
-  align-items: stretch;
   gap: 1rem;
-  border: 1px solid grey;
+  border: 1px solid #181818;
   border-radius: 1rem;
+  width: fit-content;
+  margin: 1rem auto;
   ._rightCtr,
   ._leftCtr {
-    flex: 1;
     padding: 1rem;
     ${mixins.flexCol}
     gap:1rem;
   }
-  ._rightCtr {
+
+  ._leftCtr {
+    ${mixins.flexCol}
     ._nftCollection {
       ${mixins.flexRowCenter}
       gap:.25rem;
       justify-content: initial;
     }
-  }
-  ._leftCtr {
-    ${mixins.flexColCenter}
     ._nftImg {
-      max-height: 400px;
+      ${mixins.flexCol}
+      width: 280px;
+      height: 350px;
       overflow: hidden;
       border-radius: 1rem;
-      border: 1px solid;
+      border: 1px solid #181818;
       img {
         width: 100%;
         height: 100%;
@@ -176,7 +179,8 @@ const FragmintCtr = styled.div`
     }
   }
   ._nftModules {
-    border: 1px solid var(--color-imp);
+    border: 1px solid #181818;
+    background: #212121;
     padding: 1rem;
     border-radius: 1rem;
   }
@@ -206,7 +210,7 @@ const FragmintCtr = styled.div`
 `;
 
 const FragmintPage = () => {
-  const { userInfo } = useGlobalState();
+  const { userInfo, isMinting } = useGlobalState();
   const [selectedChoices, setSelectedChoices] = useState([]);
   const { address, isConnected } = useAccount();
   const [transferAddress, setTransferAddress] = useState(null);
@@ -251,16 +255,6 @@ const FragmintPage = () => {
       }
     >
       <div className="_leftCtr">
-        <div className="_nftImg">
-          <img
-            src={
-              "https://i.pinimg.com/564x/0a/27/5c/0a275cd4d4c1feb8fa353d4893acb014.jpg"
-            }
-            alt=""
-          />
-        </div>
-      </div>
-      <div className="_rightCtr">
         <p className="_nftCollection">
           <span>Fragmint Society</span>
           <img src={assets.icons.verified} alt="" />
@@ -280,6 +274,16 @@ const FragmintPage = () => {
             {address && trimAddress(address)}
           </span>
         </p>
+        <div className="_nftImg">
+          <img
+            src={
+              "https://i.pinimg.com/564x/0a/27/5c/0a275cd4d4c1feb8fa353d4893acb014.jpg"
+            }
+            alt=""
+          />
+        </div>
+      </div>
+      <div className="_rightCtr">
         <div className="_nftModules">
           <span
             style={{
@@ -336,7 +340,7 @@ const FragmintPage = () => {
               }
               className="_transferBtn"
             >
-              Transfer Selected Modules
+              {isMinting ? "Processing..." : "Transfer Selected Modules"}
             </button>
           </div>
         </div>
