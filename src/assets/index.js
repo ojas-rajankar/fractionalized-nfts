@@ -18,6 +18,10 @@ import course2 from "./images/course2.png";
 import course3 from "./images/course3.png";
 import course4 from "./images/course4.png";
 
+//cliparts
+import leftLeaf from "./images/leftLeafBG.svg";
+import rightLeaf from "./images/rightLeafBG.svg";
+
 const courses = {
   course1,
   course2,
@@ -42,12 +46,17 @@ const icons = {
   access,
   noaccess,
 };
+const cliparts = {
+  rightLeaf,
+  leftLeaf,
+};
 
 const assets = {
   fonts,
   icons,
   avatars,
   courses,
+  cliparts,
 };
 
 export default assets;

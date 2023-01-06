@@ -40,7 +40,7 @@ const TeamMemberCtr = styled.div`
       background: url("https://i.pinimg.com/originals/b0/cf/79/b0cf79f6a73667c3b0fbc05578950f58.gif")
         no-repeat center;
       background-size: "contain";
-      opacity: 0.3;
+      opacity: 0.4;
       z-index: -1;
     }
     &:hover {
@@ -184,7 +184,7 @@ const Home = () => {
         <hr width="20%" color="grey" />
       </div>
       <TeamMembers />
-      <p className="homeFooter">Dehidden Nights and weekends hackathon 2022</p>
+      <p className="homeFooter">Dehidden Nights and weekends hackathon 2023</p>
     </HomeCtr>
   );
 };

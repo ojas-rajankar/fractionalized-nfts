@@ -115,6 +115,7 @@ export const GlobalStyles = styled.createGlobalStyle`
     font-size: var(--fs-r);
     background: var(--color-bg);
     color: var(--color-primary);
+    overflow-y: auto !important;
   }
 
   /* A elements that don't have a class get default styles */

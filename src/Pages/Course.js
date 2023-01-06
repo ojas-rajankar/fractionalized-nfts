@@ -1,9 +1,9 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useAccount } from "wagmi";
 import assets from "../assets";
-import GlobalContext, { useGlobalState } from "../GlobalContext";
+import { useGlobalState } from "../GlobalContext";
 import { mixins } from "../themes/global.theme";
 
 const Course = () => {
