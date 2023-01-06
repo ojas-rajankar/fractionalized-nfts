@@ -226,7 +226,7 @@ const FragmintPage = () => {
           return 0;
         } else return 1;
       });
-      userInfo?.fractionNFT(fragmentChoices, transferAddress);
+      userInfo?.fractionNFT(fragmentChoices, transferAddress, address);
     } else {
       alert("Invalid wallet address!");
     }

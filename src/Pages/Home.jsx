@@ -112,7 +112,12 @@ const Home = () => {
         {!address && !isConnected ? (
           <ConnectButton />
         ) : (
-          <button onClick={() => navigate("/courses")}>Your Courses</button>
+          <button
+            onClick={() => navigate("/courses")}
+            style={{ fontSize: "var(--fs-l)", width: "50%", minWidth: "300px" }}
+          >
+            Your Courses
+          </button>
         )}
       </div>
       <div className="introSection">
@@ -124,7 +129,9 @@ const Home = () => {
       </div>
       <div className="homeContent">
         <FlexRowContent>
-          <Content></Content>
+          <Content className="clipArt">
+            <img src={assets.courses.course2} alt="" />
+          </Content>
           <Content>
             <p className="ques title">The What ?</p>
             <p>
@@ -157,7 +164,9 @@ const Home = () => {
               anyone else, as it was never their own to do so with.
             </p>
           </Content>
-          <Content></Content>
+          <Content className="clipArt">
+            <img src={assets.courses.course4} alt="" />
+          </Content>
         </FlexRowContent>
         <Content style={{ maxWidth: "720px", textAlign: "center" }}>
           <p className="ques title">The Why ?</p>
@@ -192,6 +201,9 @@ const HomeCtr = styled.div`
   ${mixins.flexCol}
   gap: 1rem;
   padding-top: 2rem;
+  .clipArt {
+    ${mixins.flexColCenter}
+  }
   .homeFooter {
     color: grey;
     text-align: center;

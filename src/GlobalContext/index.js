@@ -34,26 +34,31 @@ export default function GlobalContextProvider({ children }) {
       fractionNFT: fractionNFT,
     });
   };
-  async function fractionNFT(arrayOfAccess, receiverOfFractionalNFT) {
+  async function fractionNFT(
+    arrayOfAccess,
+    receiverOfFractionalNFT,
+    ownerAddress
+  ) {
     setMintingStatus(true);
+
     try {
       const gasLimit = await contract.estimateGas.fractionNFT(
         arrayOfAccess,
-        address,
+        ownerAddress,
         receiverOfFractionalNFT
       );
       const gasPrice = signer.getGasPrice();
       const tx = await contract.fractionNFT(
         arrayOfAccess,
-        address,
+        ownerAddress,
         receiverOfFractionalNFT,
         { gasLimit: gasLimit, gasPrice: gasPrice }
       );
       await tx.wait();
       window.location.reload();
       alert("Transfer Successfull!");
-    } catch {
-      alert("Fraction Failed!");
+    } catch (err) {
+      alert("Fraction Failed!", err);
     } finally {
       setMintingStatus(false);
     }
